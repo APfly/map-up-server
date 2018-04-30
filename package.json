@@ -13,6 +13,12 @@
   },
   "author": "APfly",
   "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "pg": "^7.3.0",
+    "superagent": "^3.8.0"
+  },
   "bugs": {
     "url": "https://github.com/APfly/MU-server/issues"
   },
