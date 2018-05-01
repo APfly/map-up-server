@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/APfly/MU-server.git"
+    "url": "https://apfly.github.io/map-up-client/"
   },
   "author": "APfly",
   "license": "ISC",
