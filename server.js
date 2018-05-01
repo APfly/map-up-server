@@ -32,16 +32,21 @@ client.on('error', err => console.error(err));
 app.get('/meetup/*', (req, res) => {
   console.log('routing a request to Meetup');
   // const url = `https://api.github.com/${req.params[0]}`;
-  const url = 'https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=tech&sig_id=179434442&radius=5&sig=f5a46d787e0f4bd9bd1fef00917db80ffb52fdd3';
+  const url = 'https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=tech&sig_id=179434442&radius=5&only=events&sig=5f5aaff23adebc9d4443c7a35527d839c61ace16';
   superagent.get(url)
     // .set('Authorization', process.env.GITHUB_TOKEN)
     .then(meetups => {
-      console.log(meetups.body)
+      console.log('loading stuff from meetups api');
       res.send(meetups)
     })
     .catch(error => console.log('error', error.message));
 });
 
+// app.get('/meetup/upcoming_events', (req, res) => {
+//   client.query(`SELECT * from meetups;`)
+//     .then(results => res.send(results.rows))
+//     .catch(console.error);
+// });
 app.get('/', (req, res) => {
   res.sendFile('index.html')
 });
