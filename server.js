@@ -29,10 +29,26 @@ client.on('error', err => console.error(err));
 //   // .catch(console.error);
 // });
 
-app.get('/meetup/*', (req, res) => {
-  console.log('routing a request to Meetup');
+app.get('/meetup/init_search', (req, res) => {
+  console.log('routing default local request to Meetup');
+  const url = `https://api.meetup.com/find/upcoming_events?&key=${MEETUP_API_KEY}&sign=true&text=tech&photo-host=public&page=20&radius=30`;
+  superagent.get(url)
+    .then(meetups => {
+      console.log('loading stuff from meetups api');
+      res.send(meetups)
+    })
+    .catch(error => console.log('error', error.message));
+});
+
+app.get('/meetup/new_search/:latlng', (req, res) => {
+  console.log('request params:', req.params);
+  let latlng = req.params['latlng'].split(' ');
+  console.log(latlng);
+  let newLat = latlng[0];
+  let newLng = latlng[1];
+  console.log('routing a new request to Meetup');
   // const url = `https://api.github.com/${req.params[0]}`;
-  const url = `https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=tech&sig_id=179434442&lon=-122.2015159&lat=47.6101497&radius=5&only=events&sig=5f5aaff23adebc9d4443c7a35527d839c61ace16`;
+  const url = `https://api.meetup.com/find/upcoming_events?&key=${MEETUP_API_KEY}&sign=true&text=tech&photo-host=public&page=20&radius=30&lon=${newLng}&lat=${newLat}`;
   superagent.get(url)
     // .set('Authorization', process.env.GITHUB_TOKEN)
     .then(meetups => {
