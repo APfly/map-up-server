@@ -69,3 +69,65 @@ app.get('/', (req, res) => {
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+app.post('/meetup/new_search', (request, response) => {
+  console.log('meetuppost');
+  client.query(
+    `INSERT INTO
+     venue(venue_name, address_1, address_2, city, state, zip, lat, lon)
+     VALUES($1, $2, $3, $4, $5, $6, $7, $8);
+    `,
+    [request.venue.name,
+    request.venue.address_1,
+    request.venue.address_2,
+    request.venue.city,
+    request.venue.state,
+    request.venue.zip,
+    request.venue.lat,
+    request.venue.lon
+    ],
+    function (err) {
+      if (err) console.error(err);
+      queryTwo();
+    }
+  )
+
+    function queryTwo() {
+      client.query(
+        `SELECT venue_id FROM venue
+        WHERE author = $1;`,
+        [
+          request.name
+        ],
+    function (err, result) {
+          if (err) console.error(err);
+          console.log(result);
+          console.log(result.rows);       
+          queryThree(result.rows[0].venue_id);
+        }
+      )
+    }
+
+   function queryThree(venue_id) {
+    client.query(
+     `INSERT INTO 
+      event(event_name, group_name, date, time, url, venue_id)
+             
+      VALUES ($1, $2, $3, $4, $5, $6);`,
+       [request.name,
+        request.group.name,
+        request.local_date,
+        request.local_time,
+        request.link,
+        venue_id
+        ],
+            function (err) {
+              if (err) console.error(err);
+              response.send('insert complete');
+            }
+          );
+        }
+      });
+
+
+
