@@ -22,6 +22,8 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 
+app.get('/', (req, res) => res.redirect(CLIENT_URL));
+
 app.get('/meetup/new_search/:latlng', (req, res) => {
   console.log('request params:', req.params);
   let latlng = req.params['latlng'].split(' ');
@@ -36,10 +38,6 @@ app.get('/meetup/new_search/:latlng', (req, res) => {
       res.send(meetups)
     })
     .catch(error => console.log('error', error.message));
-});
-
-app.get('/', (req, res) => {
-  res.sendFile('index.html')
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
