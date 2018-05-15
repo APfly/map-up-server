@@ -1,20 +1,15 @@
 'use strict';
 
+// Application dependencies
 const express = require('express');
 const cors = require('cors');
 const pg = require('pg');
 const superagent = require('superagent');
 
-//token: ac725033530724b6e295ef5d4352;
-
+// Application Setup
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
-// const TOKEN = process.env.TOKEN;
-
-app.use(express.static('./public'));
-app.use(cors());
-
 const MEETUP_API_KEY = process.env.MEETUP_API_KEY;
 
 // Database Setup
@@ -22,8 +17,10 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 
-app.get('/', (req, res) => res.redirect(CLIENT_URL));
+// Application Middleware
+app.use(cors());
 
+// API Endpoints
 app.get('/meetup/new_search/:latlng', (req, res) => {
   console.log('request params:', req.params);
   let latlng = req.params['latlng'].split(' ');
