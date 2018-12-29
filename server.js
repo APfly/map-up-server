@@ -28,7 +28,8 @@ app.get('/meetup/new_search/:latlng', (req, res) => {
   let newLat = latlng[0];
   let newLng = latlng[1];
   console.log('routing a new request to Meetup');
-  const url = `https://api.meetup.com/find/upcoming_events?&key=${MEETUP_API_KEY}&sign=true&text=tech%2C+JavaScript%2C+Java%2C+Python%2C%2C+coding&photo-host=public&page=20&radius=30&lon=${newLng}&lat=${newLat}`;
+    // Original, Emery changed 20181228 const url = `https://api.meetup.com/find/upcoming_events?&key=${MEETUP_API_KEY}&sign=true&text=tech%2C+JavaScript%2C+Java%2C+Python%2C%2C+coding&photo-host=public&page=20&radius=30&lon=${newLng}&lat=${newLat}`;
+  const url = `https://api.meetup.com/find/upcoming_events?&key=${MEETUP_API_KEY}&sign=true&text=tech%2C&photo-host=public&page=20&radius=30&lon=${newLng}&lat=${newLat}`;
   superagent.get(url)
     .then(meetups => {
       console.log('loading stuff from meetups api');
